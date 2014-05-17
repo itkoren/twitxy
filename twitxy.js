@@ -28,11 +28,9 @@ dmn.on("error", function(err) {
 });
 
 dmn.run(function() {
-    // Get the current environment
-    var env = process.env.NODE_ENV || "development";
 
-    if ("development" === env) {
-        // gets called in the absence of NODE_ENV too!
+    if ("development" === app.get("env")) {
+        // Gets called in the absence of NODE_ENV too!
         app.use(function (req, res, next) {
             // you always log
             console.error(" %s %s ", req.method, req.url);
@@ -41,7 +39,7 @@ dmn.run(function() {
         app.use(morgan({ format: "dev", immediate: true }));
         app.use(errorhandler({ dumpExceptions: true, showStack: true }));
     }
-    else if ("production" === env) {
+    else if ("production" === app.get("env")) {
         app.use(errorhandler());
     }
 
